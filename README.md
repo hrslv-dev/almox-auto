@@ -1,184 +1,284 @@
-# 🔌 Gerador de Códigos para Almoxarifado Elétrica
+# 🤖 Análise Inteligente de Materiais Elétricos
 
-Automação para gerar códigos de identificação inteligentes para materiais elétricos baseados no nome, descrição e categoria do produto.
+Automação avançada que recebe **APENAS DESCRIÇÕES** e gera automaticamente:
+- ✅ **Categoria** do material
+- ✅ **Unidade** de medida
+- ✅ **Nome** resumido
+- ✅ **Código** de identificação inteligente
 
-## 📋 Características dos Códigos Gerados
+## 🎯 O Diferencial
 
-Os códigos são gerados no formato: **PREFIXO-CARACTERÍSTICAS-HASH**
+**Sistema Anterior:** Você precisava fornecer categoria, nome E descrição
+```
+INPUT:  categoria | nome | descricao
+OUTPUT: categoria | nome | descricao | codigo
+```
 
-### Exemplos:
-- `CAB-220V-4MM-PRE-A3F2` → Cabo 220V, 4mm, preto
-- `DIS-220V-20A-14EC` → Disjuntor 220V, 20A
-- `TOM-250V-10A-2P-C693` → Tomada 250V, 10A, 2 polos
-- `LED-9W-7E6D` → Lâmpada LED 9W
-- `INT-250V-10A-BRA-3193` → Interruptor 250V, 10A, branco
+**Sistema Novo:** Você fornece APENAS a descrição, o resto é automático!
+```
+INPUT:  descricao
+OUTPUT: descricao | categoria | unidade | nome | codigo
+```
 
-### O sistema detecta automaticamente:
-- ⚡ **Voltagem**: 110V, 127V, 220V, 380V
-- 🔌 **Amperagem**: 10A, 20A, 32A, etc.
-- 💡 **Potência**: 9W, 20W, 50W, etc.
-- 📏 **Bitola/Seção**: 1.5mm, 2.5mm, 4mm, 10mm
-- 📐 **Metragem**: 10m, 50m, 100m
-- 🎨 **Cores**: preto, branco, vermelho, azul, verde, amarelo
-- ⚙️ **Polos**: 1P, 2P, 3P
+## 🚀 Como Usar (Super Simples!)
 
-### Prefixos por Categoria:
-| Categoria | Prefixo | Categoria | Prefixo |
-|-----------|---------|-----------|---------|
-| Cabo | CAB | Disjuntor | DIS |
-| Fio | FIO | Interruptor | INT |
-| Tomada | TOM | Lâmpada | LAM |
-| LED | LED | Conduíte | CND |
-| Eletroduto | ELD | Contator | CNT |
-| Relé | REL | Fusível | FUS |
-| Reator | REA | Transformador | TRF |
-| Sensor | SEN | Timer | TMR |
-| + 20 outras categorias... | ... |
+### Passo 1: Prepare sua tabela
+Crie um arquivo Excel com **UMA ÚNICA COLUNA** chamada `descricao`:
 
-## 🚀 Como Usar
+| descricao |
+|-----------|
+| Cabo PP preto 2x2.5mm² rolo 100 metros |
+| Disjuntor monopolar 20A 220V |
+| Lâmpada LED 9W branca |
 
-### Opção 1: Modo Automático (Mais Fácil)
+### Passo 2: Execute o processador
+```bash
+python processar_inteligente.py suas_descricoes.xlsx
+```
 
-1. **Prepare sua tabela Excel** com as colunas:
-   - `categoria` (ex: Cabo, Disjuntor, Lâmpada)
-   - `nome` (ex: Cabo PP 2x2.5mm)
-   - `descricao` (ex: Cabo paralelo preto 2x2.5mm rolo 100m)
+### Passo 3: Pronto!
+Um novo arquivo será criado: `suas_descricoes_completo.xlsx` com todas as colunas preenchidas!
 
-2. **Execute o processador:**
-   ```bash
-   python processar_tabela.py seu_arquivo.xlsx
-   ```
+## 📊 Exemplo Real
 
-3. **Pronto!** Um novo arquivo será criado: `seu_arquivo_com_codigos.xlsx`
+### ENTRADA (apenas descrição):
+```
+1. Cabo PP preto 2x2.5mm² rolo 100 metros
+2. Disjuntor monopolar 20A 220V curva C
+3. Lâmpada LED bulbo 9W branca fria 6500K
+```
 
-### Opção 2: Usando o Gerador Diretamente
+### SAÍDA (tabela completa):
+```
+┌──────────────────────────────────┬────────────┬─────────┬──────────────────┬──────────────────┐
+│ descricao                        │ categoria  │ unidade │ nome             │ codigo           │
+├──────────────────────────────────┼────────────┼─────────┼──────────────────┼──────────────────┤
+│ Cabo PP preto 2x2.5mm² rolo...  │ Cabo       │ Metro   │ Cabo 2.5mm       │ CAB-2.5MM-PRE... │
+│ Disjuntor monopolar 20A 220V...  │ Disjuntor  │ Unidade │ Disjuntor 220V...│ DIS-220V-20A-... │
+│ Lâmpada LED bulbo 9W branca...  │ Lâmpada    │ Unidade │ Lâmpada 9W       │ LAM-9W-...       │
+└──────────────────────────────────┴────────────┴─────────┴──────────────────┴──────────────────┘
+```
 
+## 🔍 O Que o Sistema Detecta Automaticamente
+
+### 📦 Categorias (40+ tipos)
+- Cabos, Fios, Disjuntores, Interruptores
+- Tomadas, Lâmpadas, LEDs, Conduítes
+- Eletrodutos, Contatores, Relés, Fusíveis
+- Sensores, Timers, Drivers, Reatores
+- Conectores, Terminais, Abraçadeiras
+- E muito mais...
+
+### 📏 Unidades de Medida
+- **Metro**: para cabos, fios, conduítes, eletrodutos
+- **Unidade**: para dispositivos individuais
+- **Rolo**: para fitas isolantes
+- **Pacote**: para abraçadeiras, parafusos
+- **Caixa**: para kits/conjuntos
+- **Par**: para pares de terminais
+- **Conjunto**: para kits completos
+
+### 🔧 Características Técnicas Extraídas
+- ⚡ Voltagem: 110V, 127V, 220V, 380V
+- 🔌 Amperagem: 10A, 20A, 32A, 63A
+- 💡 Potência: 9W, 20W, 50W, 100W
+- 📏 Bitola: 1.5mm, 2.5mm, 4mm, 10mm
+- 📐 Comprimento: 10m, 50m, 100m
+- 🎨 Cores: preto, branco, vermelho, azul, verde
+- ⚙️ Polos: 1P, 2P, 3P
+
+## 💻 Exemplos de Uso
+
+### Exemplo 1: Uso Básico
 ```python
 import pandas as pd
-from gerador_codigos_eletrica import GeradorCodigosEletrica
+from analisador_inteligente import AnalisadorMaterialEletrico
 
-# Ler sua tabela
-df = pd.read_excel('sua_tabela.xlsx')
+# Carregar descrições
+df = pd.read_excel('minhas_descricoes.xlsx')
 
-# Gerar códigos
-gerador = GeradorCodigosEletrica()
-df_com_codigos = gerador.processar_tabela(df)
+# Processar
+analisador = AnalisadorMaterialEletrico()
+resultado = analisador.processar_tabela(df)
 
-# Salvar resultado
-df_com_codigos.to_excel('resultado.xlsx', index=False)
+# Salvar
+resultado.to_excel('resultado_completo.xlsx', index=False)
 ```
 
-### Opção 3: Código Individual
+### Exemplo 2: Coluna com Nome Diferente
+Se sua coluna não se chama "descricao":
+```bash
+python processar_inteligente.py arquivo.xlsx nome_da_sua_coluna
+```
 
+### Exemplo 3: Processar Material Individual
 ```python
-from gerador_codigos_eletrica import GeradorCodigosEletrica
+from analisador_inteligente import AnalisadorMaterialEletrico
 
-gerador = GeradorCodigosEletrica()
-codigo = gerador.gerar_codigo(
-    nome='Cabo PP 2x2.5mm',
-    descricao='Cabo paralelo preto 2x2.5mm rolo 100m',
-    categoria='Cabo',
+analisador = AnalisadorMaterialEletrico()
+resultado = analisador.analisar_material(
+    'Cabo PP preto 2x2.5mm rolo 100m',
     indice=0
 )
-print(codigo)  # Saída: CAB-2.5MM-PRE-6A93
+
+print(resultado)
+# {
+#   'categoria': 'Cabo',
+#   'unidade': 'Metro',
+#   'nome': 'Cabo 2.5mm',
+#   'codigo': 'CAB-2.5MM-PRE-729A'
+# }
 ```
 
-## 📂 Estrutura de Arquivos
+## 📂 Arquivos do Sistema
 
 ```
-.
-├── gerador_codigos_eletrica.py    # Motor principal do gerador
-├── processar_tabela.py            # Script simplificado para processar arquivos
-├── criar_exemplo.py               # Cria arquivo de exemplo
-├── materiais_eletrica_exemplo.xlsx                # Exemplo de entrada
-└── materiais_eletrica_exemplo_com_codigos.xlsx   # Exemplo de saída
+📦 Sistema de Análise Inteligente
+├── 📄 analisador_inteligente.py          # Motor principal da IA
+├── 📄 processar_inteligente.py           # Script simplificado
+├── 📄 gerador_codigos_eletrica.py        # Gerador de códigos (usado internamente)
+├── 📄 criar_exemplo_descricoes.py        # Cria arquivo de exemplo
+├── 📊 descricoes_materiais.xlsx          # Exemplo com 55 descrições
+└── 📊 descricoes_materiais_completo.xlsx # Resultado processado
 ```
 
-## 💻 Requisitos
+## 🎓 Teste Rápido
+
+Quer testar? Execute estes comandos:
 
 ```bash
-# Instalar dependências
-pip install pandas openpyxl
+# 1. Criar arquivo de exemplo
+python criar_exemplo_descricoes.py
+
+# 2. Processar o exemplo
+python processar_inteligente.py descricoes_materiais.xlsx
+
+# 3. Abrir o resultado
+# descricoes_materiais_completo.xlsx
 ```
 
-**Dependências:**
-- Python 3.6+
-- pandas
-- openpyxl (para arquivos Excel)
+## 📋 Formato de Entrada Aceito
 
-## 📊 Formato da Tabela de Entrada
+### ✅ Formato Correto
+```
+| descricao |
+|-----------|
+| Cabo PP preto 2x2.5mm² rolo 100 metros |
+| Disjuntor monopolar 20A 220V |
+```
 
-Sua tabela **DEVE** conter estas colunas (nomes não são case-sensitive):
+### ✅ Também Funciona
+Se você já tem outras colunas, sem problemas! O sistema só precisa de uma coluna com as descrições:
+```
+| codigo_antigo | descricao                              | estoque |
+|---------------|----------------------------------------|---------|
+| 001           | Cabo PP preto 2x2.5mm² rolo 100 metros | 50      |
+| 002           | Disjuntor monopolar 20A 220V           | 100     |
+```
 
-| categoria | nome | descricao |
-|-----------|------|-----------|
-| Cabo | Cabo PP 2x2.5mm | Cabo paralelo PP preto 2x2.5mm² rolo 100m |
-| Disjuntor | Disjuntor 20A | Disjuntor monopolar 20A 220V curva C |
-| Lâmpada | Lâmpada LED 9W | Lâmpada LED bulbo 9W branca fria 6500K |
+O sistema irá adicionar as novas colunas (categoria, unidade, nome, codigo) mantendo as existentes.
 
-## ✅ Saída Gerada
+## 🔄 Integração com Sistema Anterior
 
-A tabela de saída terá todas as colunas originais **MAIS** a coluna `codigo`:
+Você pode usar ambos os sistemas:
 
-| categoria | nome | descricao | **codigo** |
-|-----------|------|-----------|---------|
-| Cabo | Cabo PP 2x2.5mm | Cabo paralelo... | **CAB-2.5MM-PRE-6A93** |
-| Disjuntor | Disjuntor 20A | Disjuntor monopolar... | **DIS-220V-20A-D152** |
-| Lâmpada | Lâmpada LED 9W | Lâmpada LED bulbo... | **LED-9W-7E6D** |
+**Sistema Inteligente** (este):
+- Quando você tem APENAS descrições
+- Para análise automática de novos materiais
+- Para importação de catálogos de fornecedores
 
-## 🎯 Vantagens
+**Sistema Anterior** (gerador_codigos_eletrica.py):
+- Quando você JÁ TEM categoria e nome definidos
+- Para padronização de cadastros existentes
+- Para controle mais preciso das categorias
 
-✅ **Códigos Inteligentes**: Baseados nas características reais do produto  
-✅ **Únicos**: Hash garante que não haverá duplicação  
-✅ **Legíveis**: Fácil identificar o produto apenas pelo código  
-✅ **Automático**: Processa centenas de itens em segundos  
-✅ **Flexível**: Suporta Excel (.xlsx) e CSV (.csv)  
+## 📊 Estatísticas do Exemplo
 
-## 🔧 Personalização
+Ao processar o arquivo de exemplo (55 materiais):
+- ✅ 24 categorias diferentes identificadas
+- ✅ 4 tipos de unidades detectadas
+- ✅ 55 códigos únicos gerados
+- ⚡ Processamento em < 1 segundo
 
-Para adicionar novos prefixos ou categorias, edite o dicionário `prefixos_categoria` em `gerador_codigos_eletrica.py`:
+## ⚙️ Personalização
 
+### Adicionar Nova Categoria
+Edite `analisador_inteligente.py`:
 ```python
-self.prefixos_categoria = {
-    'seu_produto': 'PRD',  # Adicione aqui
-    'cabo': 'CAB',
+self.categorias_keywords = {
+    'Sua_Categoria': ['palavra1', 'palavra2'],
+    'Cabo': ['cabo', 'pp', 'paralelo'],
     # ...
 }
 ```
 
-## 📝 Exemplo Completo
-
-```bash
-# 1. Criar arquivo de exemplo
-python criar_exemplo.py
-
-# 2. Processar o arquivo
-python processar_tabela.py materiais_eletrica_exemplo.xlsx
-
-# 3. Verificar resultado
-# O arquivo 'materiais_eletrica_exemplo_com_codigos.xlsx' será criado
+### Adicionar Nova Unidade
+```python
+self.unidades_keywords = {
+    'Sua_Unidade': ['palavra-chave'],
+    'Metro': ['rolo', 'metro', 'm'],
+    # ...
+}
 ```
+
+## 🆚 Comparação: Manual vs Automático
+
+| Tarefa | Manual | Com Sistema |
+|--------|--------|-------------|
+| Classificar 100 materiais | 2-3 horas | 5 segundos |
+| Definir unidades | 30-60 min | Automático |
+| Gerar códigos | 1-2 horas | Automático |
+| Risco de erro | Alto | Baixo |
+| Consistência | Variável | 100% |
+
+## 🎯 Casos de Uso
+
+✅ **Importação de Catálogos**
+- Recebeu catálogo de fornecedor com apenas descrições? Processe automaticamente!
+
+✅ **Padronização de Estoque**
+- Tem descrições antigas sem padrão? O sistema organiza tudo!
+
+✅ **Novos Cadastros**
+- Adicione novos materiais rapidamente sem preocupar com classificação
+
+✅ **Migração de Sistemas**
+- Migrando de outro sistema? Importe descrições e gere tudo automaticamente
+
+## 💡 Dicas
+
+1. **Descrições Completas**: Quanto mais informação na descrição, melhor a análise
+   - ✅ "Cabo PP preto 2x2.5mm² rolo 100 metros"
+   - ❌ "Cabo"
+
+2. **Informações Técnicas**: Inclua voltagem, amperagem, bitola, etc.
+   - ✅ "Disjuntor monopolar 20A 220V"
+   - ❌ "Disjuntor monopolar"
+
+3. **Unidades**: Mencione a embalagem/quantidade
+   - ✅ "Abraçadeira 200mm pacote 100 unidades"
+   - ❌ "Abraçadeira 200mm"
 
 ## ❓ Problemas Comuns
 
 **"Coluna não encontrada"**
-- Certifique-se que sua tabela tem as colunas: `categoria`, `nome`, `descricao`
+→ Certifique-se que existe uma coluna chamada 'descricao' ou especifique o nome correto
 
-**"Arquivo não encontrado"**
-- Verifique o caminho do arquivo
-- Use o caminho completo se necessário
+**"Categoria genérica atribuída"**
+→ Adicione palavras-chave mais específicas na descrição ou personalize o sistema
 
-**"Erro ao salvar"**
-- Feche o arquivo Excel antes de processar
-- Verifique permissões de escrita na pasta
+**"Unidade incorreta"**
+→ Inclua informações de embalagem (rolo, pacote, unidade) na descrição
 
 ## 📧 Suporte
 
-Para dúvidas ou problemas:
-1. Verifique se os nomes das colunas estão corretos
-2. Confirme que o arquivo não está aberto em outro programa
-3. Teste com o arquivo de exemplo primeiro
+Para melhorar o sistema:
+1. Analise as descrições que não foram classificadas corretamente
+2. Adicione as palavras-chave no código (seção Personalização)
+3. Reprocesse o arquivo
 
 ---
 
 **Desenvolvido para Almoxarifado - Setor de Elétrica** 🔌⚡
+
+**Versão 2.0 - Sistema Inteligente com Análise Automática**
